@@ -42,3 +42,5 @@ int main() {
     cin >> n;
     listing_configs(n);
 }
+
+//add comment
