@@ -1,28 +1,39 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-void swap(int a, int b)
+string str[] = {"Tam", "Toan", "Trang", "Cong", "Trung", "Tu"};
+
+void swap(int &a, int &b)
 {
     int tg = a;
     a = b;
     b = tg;
 }
 
-void next_config(int a[], int k, int i)
+void next_config(int a[], int n, int i)
 {
-    //Dat x[i+1], …, x[n] = 0
-    a[i] += 1;
-    i++;
-    while(i < k) {
-        a[i] = a[i-1] + 1;
+    //Tim x[k] be nhat trong doan cuoi lớn hon x[i]
+    int k = n-1;
+    while (a[k] < a[i])
+    {
+        k--;
+    }
+    //Dao gia tri a[i] va a[k]
+    swap(a[i], a[k]);
+    //Dao nguoc doan cuoi
+    int j = n-1; i++;
+    while (i < j)
+    {
+        swap(a[i], a[j]);
         i++;
+        j--;
     }
 }
 
 void display_config(int a[], int n)
 {
     for(int i = 0; i < n; i++)
-        cout << a[i];
+        cout << str[a[i] - 1] << " ";
     cout << endl;
 }
 
@@ -33,16 +44,16 @@ void listing_configs(int n)
     for(int i = 0; i < n; i++)
         a[i] = i+1;
     do {
-        display_config(a, n);
-        i = k-1;
-        while (i > -1 && a[i] == (n-k+i+1))
-        {
+        display_config(a, n); //In một cấu hình
+        //Tim phan tu lien truoc doan cuoi giam dan
+        i = n - 2;
+        while (i > -1 && a[i] > a[i+1])
             i--;
+        if (i > -1) 
+        {
+            next_config(a, n, i);
         }
-        if(i > -1)
-            next_config(a, k, i);        
-    }
-    while(i > -1);
+    } while (i > -1);
 }
 
 int main() {
